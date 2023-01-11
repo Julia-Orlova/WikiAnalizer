@@ -6,7 +6,7 @@ An integration and processing system for Wikipedia / Wikimedia.
 * [Юлія Орлова](https://github.com/Julia-Orlova)
 * [Вікторія Бабенко](https://github.com/vika-babenko)
 * [Андрій Дмитришин](https://github.com/AndrewDmytryshyn)
-* [Михайло Брязкало](https://t.me/ez_mish)
+* [Михайло Брязкало](https://github.com/mihailBz)
 
 У цьому репозиторії знаходиться проект, який являється системою для отримання та обробки змін у Wikipedia/Wikimedia.
 
