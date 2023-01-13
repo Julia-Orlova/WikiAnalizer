@@ -15,7 +15,8 @@ RxPY – це модуль Python, який можна використовув�
 * get_strings() – для отримання рядків від спостерігача.
 * PrintObserver () – для друку рядків із спостерігача. Він використовує всі три події класу спостерігача. Він також використовує клас subscribe().
 
-```from rx import Observable, Observer
+```
+from rx import Observable, Observer
 def get_strings(observer):
    observer.on_next("Ram")
    observer.on_next("Mohan")
@@ -29,4 +30,13 @@ class PrintObserver(Observer):
    def on_error(self, error):
       print("Error: {0}".format(error))
 source = Observable.create(get_strings)
-source.subscribe(PrintObserver())```
+source.subscribe(PrintObserver())
+```
+
+Вивід:
+```
+Received Ram
+Received Mohan
+Received Shyam
+Finished
+```
