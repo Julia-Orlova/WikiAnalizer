@@ -16,9 +16,7 @@ from wiki_streams import (
 
 def main() -> None:
     api_url: str = "https://en.wikipedia.org/w/api.php"
-    stream_url: str = (
-        "https://stream.wikimedia.org/v2/stream/recentchange"
-    )
+    stream_url: str = "https://stream.wikimedia.org/v2/stream/recentchange"
 
     api: WikiApi = WikiApi(api_url, stream_url)
 
@@ -35,9 +33,7 @@ def main() -> None:
     sub2: DisposableBase = track_user_activity(
         changes_stream, users_to_track
     ).subscribe(
-        on_next=lambda item: print(
-            f'on next: {item.get("user")} {item}'
-        ),
+        on_next=lambda item: print(f'on next: {item.get("user")} {item}'),
         on_error=lambda e: print(f"Error: {e}"),
     )
     # 3. Retrieve a statistic of a particular user which include:
@@ -50,17 +46,13 @@ def main() -> None:
     )
     username = "Bluejay14"
 
-    user_typos_history: rx.Observable[
-        dict
-    ] = api.get_user_changes_history(
+    user_typos_history: rx.Observable[dict] = api.get_user_changes_history(
         username,
         start_date,
         rcshow="minor",
         rctype="edit",
     )
-    user_edits_history: rx.Observable[
-        dict
-    ] = api.get_user_changes_history(
+    user_edits_history: rx.Observable[dict] = api.get_user_changes_history(
         username,
         start_date,
         rcshow="!minor",
@@ -71,9 +63,7 @@ def main() -> None:
     )
     user_activity_over_day(user_all_changes_history).subscribe(
         on_next=lambda data: plot_hist(data, "All changes"),
-        on_error=lambda e: print(
-            f"on_error: {e}\n{traceback.print_exc()}"
-        ),
+        on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
     # 3.b Topics to which the user has contributed the most
@@ -82,23 +72,17 @@ def main() -> None:
 
     user_activity_over_day(user_typos_history).subscribe(
         on_next=lambda data: plot_hist(data, "Typos editing"),
-        on_error=lambda e: print(
-            f"on_error: {e}\n{traceback.print_exc()}"
-        ),
+        on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
     user_activity_over_day(user_edits_history).subscribe(
         on_next=lambda data: plot_hist(data, "Content adding"),
-        on_error=lambda e: print(
-            f"on_error: {e}\n{traceback.print_exc()}"
-        ),
+        on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
     # 4. Retrieve the most active user during the given time window
     time_window = timedelta(seconds=10)
-    most_active_user_over_timespan(
-        changes_stream, time_window
-    ).subscribe(
+    most_active_user_over_timespan(changes_stream, time_window).subscribe(
         on_next=lambda item: print(
             f"Top edits user for last {time_window}\nUser: {item[0]}\nEdits count: {item[1]}"
         ),

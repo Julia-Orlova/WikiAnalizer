@@ -21,11 +21,7 @@ class WikiApi:
         )
 
     def _get_user_changes_history(
-        self,
-        user: str,
-        start_date: datetime,
-        continue_params: dict = None,
-        **kwargs
+        self, user: str, start_date: datetime, continue_params: dict = None, **kwargs
     ) -> List[dict]:
         payload = {
             "action": "query",
@@ -41,9 +37,7 @@ class WikiApi:
             payload.update(continue_params)
 
         data: dict = requests.get(self._url, params=payload).json()
-        recent_changes_data: List[dict] = data.get("query").get(
-            "recentchanges"
-        )
+        recent_changes_data: List[dict] = data.get("query").get("recentchanges")
 
         if data.get("continue"):
             recent_changes_data.extend(

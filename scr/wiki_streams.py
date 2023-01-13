@@ -10,9 +10,7 @@ from typing import Tuple, List
 def track_user_activity(
     stream: rx.Observable[dict], users: list
 ) -> rx.Observable[dict]:
-    return stream.pipe(
-        ops.filter(lambda event: event.get("user") in users)
-    )
+    return stream.pipe(ops.filter(lambda event: event.get("user") in users))
 
 
 def most_active_user_over_timespan(
