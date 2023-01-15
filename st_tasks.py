@@ -9,7 +9,7 @@ from src.wiki_api import WikiApi
 from src.wiki_streams import (
     merge_user_activity,
     most_active_user_over_timespan,
-    plot_hist,
+    st_plot,
     track_user_activity,
     user_activity_over_day,
 )
@@ -75,7 +75,7 @@ def task3a(username, days_from_today):
         user_typos_history, user_edits_history
     )
     user_activity_over_day(user_all_changes_history).subscribe(
-        on_next=lambda data: plot_hist(data, "All changes"),
+        on_next=lambda data: st_plot(data, "All changes"),
         on_error=lambda e: st.text(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
@@ -106,12 +106,12 @@ def task3c():
     )
 
     user_activity_over_day(user_typos_history).subscribe(
-        on_next=lambda data: plot_hist(data, "Typos editing"),
+        on_next=lambda data: st_plot(data, "Typos editing"),
         on_error=lambda e: st.text(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
     user_activity_over_day(user_edits_history).subscribe(
-        on_next=lambda data: plot_hist(data, "Content adding"),
+        on_next=lambda data: st_plot(data, "Content adding"),
         on_error=lambda e: st.text(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 

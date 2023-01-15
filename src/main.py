@@ -8,7 +8,7 @@ from wiki_api import WikiApi
 from wiki_streams import (
     merge_user_activity,
     most_active_user_over_timespan,
-    plot_hist,
+    show_graph,
     track_user_activity,
     user_activity_over_day,
 )
@@ -62,7 +62,7 @@ def main() -> None:
         user_typos_history, user_edits_history
     )
     user_activity_over_day(user_all_changes_history).subscribe(
-        on_next=lambda data: plot_hist(data, "All changes"),
+        on_next=lambda data: show_graph(data, "All changes"),
         on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
@@ -71,12 +71,12 @@ def main() -> None:
     # 3.c Type of contribution
 
     user_activity_over_day(user_typos_history).subscribe(
-        on_next=lambda data: plot_hist(data, "Typos editing"),
+        on_next=lambda data: show_graph(data, "Typos editing"),
         on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
     user_activity_over_day(user_edits_history).subscribe(
-        on_next=lambda data: plot_hist(data, "Content adding"),
+        on_next=lambda data: show_graph(data, "Content adding"),
         on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 

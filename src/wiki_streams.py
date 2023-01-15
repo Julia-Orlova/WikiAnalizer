@@ -5,6 +5,8 @@ import matplotlib.pylab as plt
 import reactivex as rx
 from reactivex import operators as ops
 from typing import Tuple, List
+import pandas as pd
+import streamlit as st
 
 
 def track_user_activity(
@@ -59,8 +61,7 @@ def user_activity_over_day(
     )
 
 
-def plot_hist(data: List[Tuple[date, int]], title: str = None) -> None:
-    # todo plot data in the same fig
+def show_graph(data: List[Tuple[date, int]], title: str = None) -> None:
     data.sort(key=lambda pair: pair[0])
     x, y = zip(*data)
 
@@ -76,3 +77,10 @@ def plot_hist(data: List[Tuple[date, int]], title: str = None) -> None:
             ax.set_title(title)
         ax.plot(x, y)
         plt.show()
+
+
+def st_plot(data: List[Tuple[date, int]], title: str = None) -> None:
+    data.sort(key=lambda pair: pair[0])
+    x, y = zip(*data)
+    chart_data = pd.DataFrame(y, x, columns=[title])
+    st.line_chart(chart_data)
