@@ -1,5 +1,5 @@
 import streamlit as st
-from main import task4
+from st_tasks import task4
 
 st.set_page_config(page_title="Task4")
 
