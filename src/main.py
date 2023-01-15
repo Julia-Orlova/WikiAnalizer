@@ -1,5 +1,6 @@
 import traceback
 from datetime import date, datetime, timedelta
+from pprint import pprint
 
 import reactivex as rx
 from reactivex.abc import DisposableBase
@@ -11,6 +12,7 @@ from wiki_streams import (
     show_graph,
     track_user_activity,
     user_activity_over_day,
+    users_top_title_contributions
 )
 
 
@@ -66,7 +68,12 @@ def main() -> None:
         on_error=lambda e: print(f"on_error: {e}\n{traceback.print_exc()}"),
     )
 
-    # 3.b Topics to which the user has contributed the most
+    # 3.b Pages to which the user has contributed the most
+
+    users_top_title_contributions(user_all_changes_history).subscribe(
+        on_next=pprint,
+        on_error=lambda e: traceback.print_exc()
+    )
 
     # 3.c Type of contribution
 

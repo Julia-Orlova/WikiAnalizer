@@ -61,6 +61,17 @@ def user_activity_over_day(
     )
 
 
+def users_top_title_contributions(changes: rx.Observable[dict]) -> rx.Observable:
+    return changes.pipe(
+        ops.map(lambda event: event.get('title')),
+        ops.group_by(lambda _: _),
+        ops.flat_map(lambda grp: grp.pipe(ops.to_list())),
+        ops.map(lambda grp: (grp[0], len(grp))),
+        ops.to_list(),
+        ops.map(lambda lst: sorted(lst, key=lambda x: x[1], reverse=True)[:10]),
+    )
+
+
 def show_graph(data: List[Tuple[date, int]], title: str = None) -> None:
     data.sort(key=lambda pair: pair[0])
     x, y = zip(*data)
