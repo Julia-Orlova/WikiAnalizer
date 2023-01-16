@@ -80,18 +80,16 @@ def task3a(username, days_from_today):
     )
 
 
-def task3c():
+def task3c(username, days_from_today):
     api_url: str = "https://en.wikipedia.org/w/api.php"
     stream_url: str = "https://stream.wikimedia.org/v2/stream/recentchange"
 
     api: WikiApi = WikiApi(api_url, stream_url)
 
-    days_from_today: int = 30
     start_date: datetime = datetime.combine(
         date.today() - timedelta(days=days_from_today),
         datetime.min.time(),
     )
-    username = "Bluejay14"
 
     user_typos_history: rx.Observable[dict] = api.get_user_changes_history(
         username,
@@ -124,18 +122,11 @@ def task4():
     api: WikiApi = WikiApi(api_url, stream_url)
 
     changes_stream: rx.Observable[dict] = api.get_event_stream()
-    # streamlit run st_main_page.py
+    
     time_window = timedelta(seconds=2)
-    '''most_active_user_over_timespan(changes_stream, time_window).subscribe(
+    sub4 = most_active_user_over_timespan(changes_stream, time_window).subscribe(
         on_next=lambda item: print(
             f"\nTop edits user for last {time_window}\nUser: {item[0]}\nEdits count: {item[1]}"
         ),
         on_error=lambda e: print(f"Error: {traceback.print_exc()}"),
-    )'''
-    sub4 = most_active_user_over_timespan(changes_stream, time_window).subscribe(
-        on_next=lambda item: st.text(
-            f"\nTop edits user for last {time_window}\nUser: {item[0]}\nEdits count: {item[1]}"
-        ),
-        on_error=lambda e: st.text(f"Error: {traceback.print_exc()}"),
     )
-
