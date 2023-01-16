@@ -1,5 +1,5 @@
 import streamlit as st
-from main import task3a
+from st_tasks import task3b
 
 st.set_page_config(page_title="Task3b")
 
@@ -13,4 +13,4 @@ user = st.text_input('Enter a username:')
 nums = int(st.number_input('Enter the number of days:', min_value=1, max_value=1000))
 
 if st.button('Retrieve a statistic'):
-    task3a(user, nums)
+    task3b(user, nums)

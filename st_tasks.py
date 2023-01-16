@@ -12,6 +12,7 @@ from src.wiki_streams import (
     st_plot,
     track_user_activity,
     user_activity_over_day,
+    users_top_title_contributions
 )
 
 # 1. Recent Changes as a real-time stream
@@ -77,6 +78,39 @@ def task3a(username, days_from_today):
     user_activity_over_day(user_all_changes_history).subscribe(
         on_next=lambda data: st_plot(data, "All changes"),
         on_error=lambda e: st.text(f"on_error: {e}\n{traceback.print_exc()}"),
+    )
+
+
+def task3b(username, days_from_today):
+    api_url: str = "https://en.wikipedia.org/w/api.php"
+    stream_url: str = "https://stream.wikimedia.org/v2/stream/recentchange"
+
+    api: WikiApi = WikiApi(api_url, stream_url)
+
+    start_date: datetime = datetime.combine(
+        date.today() - timedelta(days=days_from_today),
+        datetime.min.time(),
+    )
+
+    user_typos_history: rx.Observable[dict] = api.get_user_changes_history(
+        username,
+        start_date,
+        rcshow="minor",
+        rctype="edit",
+    )
+    user_edits_history: rx.Observable[dict] = api.get_user_changes_history(
+        username,
+        start_date,
+        rcshow="!minor",
+    )
+
+    user_all_changes_history: rx.Observable[dict] = merge_user_activity(
+        user_typos_history, user_edits_history
+    )
+
+    users_top_title_contributions(user_all_changes_history).subscribe(
+        on_next=st.write,
+        on_error=lambda e: st.text(f"on_error: {e}\n{traceback.print_exc()}")
     )
 
 
